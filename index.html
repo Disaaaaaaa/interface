@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Interfaces — Comprehensive Theory & Interactive Pack</title>
+<style>
+  :root{
+    --bg:#f6f8fb;
+    --card:#ffffff;
+    --ink:#172033;
+    --muted:#5f6b7a;
+    --line:#dfe5ec;
+    --accent:#2f67d8;
+    --accent2:#6b4fd3;
+    --good:#147a46;
+    --bad:#a33a3a;
+    --warn:#8a5a00;
+    --soft:#eef4ff;
+    --soft2:#f3efff;
+    --radius:18px;
+    --shadow:0 10px 30px rgba(31, 45, 61, .08);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Inter, "Segoe UI", Arial, sans-serif;
+    line-height:1.6;
+  }
+  header{
+    background:linear-gradient(135deg,#173a7a,#4a67d6 55%,#6d56d9);
+    color:white;
+    padding:58px 20px 48px;
+  }
+  .wrap{max-width:1180px;margin:auto}
+  h1{font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.05;margin:0 0 14px}
+  h2{font-size:2rem;margin:0 0 14px}
+  h3{font-size:1.35rem;margin:0 0 10px}
+  h4{margin:.2rem 0 .4rem}
+  p{margin:.45rem 0 1rem}
+  .subtitle{font-size:1.15rem;max-width:800px;color:#e7ecff}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+  .chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:999px}
+  nav{
+    position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--line)
+  }
+  nav .wrap{display:flex;gap:16px;overflow:auto;padding:10px 18px}
+  nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:650;padding:7px 10px;border-radius:9px}
+  nav a:hover{background:var(--soft);color:var(--accent)}
+  main{padding:28px 20px 70px}
+  section{scroll-margin-top:70px;margin:24px auto 42px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:24px;margin:16px 0
+  }
+  .grid{display:grid;gap:18px}
+  .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  @media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .obj{border-left:5px solid var(--accent);padding:14px 16px;background:#f9fbff;border-radius:12px}
+  .mini{font-size:.92rem;color:var(--muted)}
+  .label{display:inline-block;padding:4px 9px;border-radius:999px;font-size:.78rem;font-weight:800;letter-spacing:.02em;background:var(--soft);color:var(--accent)}
+  .pros,.cons{padding:0;margin:0;list-style:none}
+  .pros li,.cons li{position:relative;padding-left:26px;margin:8px 0}
+  .pros li:before{content:"✓";position:absolute;left:0;color:var(--good);font-weight:900}
+  .cons li:before{content:"✕";position:absolute;left:0;color:var(--bad);font-weight:900}
+  table{width:100%;border-collapse:collapse;margin-top:12px}
+  th,td{padding:12px;border:1px solid var(--line);vertical-align:top;text-align:left}
+  th{background:#f1f5fb}
+  .table-wrap{overflow:auto}
+  .callout{border-left:5px solid var(--accent2);background:var(--soft2);padding:14px 16px;border-radius:12px;margin:14px 0}
+  .exam{border-left:5px solid #d58c18;background:#fff8eb;padding:14px 16px;border-radius:12px}
+  button{
+    border:none;border-radius:10px;padding:10px 14px;font-weight:750;cursor:pointer;
+    background:var(--accent);color:white
+  }
+  button.secondary{background:#eef2f7;color:var(--ink);border:1px solid var(--line)}
+  button:hover{filter:brightness(.98)}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .tab-btn.active{background:var(--accent2)}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+  .visual-ui{
+    border:1px solid #cfd6e0;border-radius:16px;overflow:hidden;background:white;
+    min-height:300px
+  }
+  .osbar{height:42px;background:#edf1f6;display:flex;align-items:center;padding:0 12px;gap:8px;border-bottom:1px solid #d9dfe7}
+  .dot{width:12px;height:12px;border-radius:50%;background:#aab4c1}
+  .desk{display:grid;grid-template-columns:180px 1fr;min-height:260px}
+  .sidebar{background:#f8fafc;padding:14px;border-right:1px solid var(--line)}
+  .sideitem,.file{
+    padding:9px;border-radius:9px;margin:4px 0;cursor:pointer;border:1px solid transparent
+  }
+  .sideitem:hover,.file:hover{background:#edf4ff;border-color:#cbdcff}
+  .files{padding:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start}
+  .file{border:1px solid var(--line);text-align:center}
+  .file .icon{font-size:2rem}
+  .terminal{
+    background:#10141c;color:#d7e2f0;border-radius:14px;padding:16px;font-family:Consolas,monospace;
+    min-height:280px;box-shadow:inset 0 0 0 1px #263246
+  }
+  .terminal input{
+    width:80%;background:transparent;border:none;outline:none;color:#9fe6b8;font-family:inherit;font-size:1rem
+  }
+  .term-line{white-space:pre-wrap;margin:2px 0}
+  .prompt{color:#72b7ff}
+  .diagram{
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;
+    padding:18px;background:linear-gradient(180deg,#fff,#f7f9fc);border-radius:14px;border:1px solid var(--line)
+  }
+  .node{padding:16px;border:1px solid var(--line);border-radius:14px;background:white;text-align:center}
+  .arrow{font-size:2rem;color:var(--accent)}
+  @media(max-width:700px){.diagram{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.files{grid-template-columns:1fr 1fr}.desk{grid-template-columns:1fr}.sidebar{display:none}}
+  .metric{
+    display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line)
+  }
+  .bar{height:9px;border-radius:999px;background:#e9edf3;overflow:hidden;margin-top:6px}
+  .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .sort-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:800px){.sort-grid{grid-template-columns:1fr}}
+  .bucket{min-height:170px;border:2px dashed #cbd4df;border-radius:14px;padding:14px;background:#fbfcfe}
+  .statement{
+    display:block;width:100%;text-align:left;background:white;color:var(--ink);
+    border:1px solid var(--line);margin:8px 0
+  }
+  .statement.selected{outline:3px solid #c9dcff}
+  .statement.correct{background:#eefaf3;border-color:#8fd0aa}
+  .statement.wrong{background:#fff0f0;border-color:#e4a5a5}
+  .qbox{border-top:1px solid var(--line);padding:16px 0}
+  .qbox:first-child{border-top:none}
+  .option{
+    display:block;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer;background:white
+  }
+  .option:hover{background:#f7f9fc}
+  .feedback{margin-top:10px;font-weight:700}
+  .good{color:var(--good)} .bad{color:var(--bad)}
+  .scorebox{
+    font-size:1.15rem;font-weight:850;padding:14px;border-radius:12px;background:#edf4ff;margin-top:14px
+  }
+  details{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:white;margin:10px 0}
+  summary{font-weight:800;cursor:pointer}
+  .scenario{border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+  footer{padding:30px 20px;background:#182235;color:#dce5f2}
+  code{background:#eef2f7;padding:2px 6px;border-radius:6px}
+  .kbd{font-family:Consolas,monospace;border:1px solid #bfc7d1;border-bottom-width:3px;background:#fff;padding:2px 7px;border-radius:6px}
+  .hidden{display:none!important}
+
+  .scenario-toolbar{
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0 18px
+  }
+  .scenario-table select{
+    width:100%;min-width:92px;padding:8px;border:1px solid var(--line);
+    border-radius:9px;background:white;color:var(--ink);font:inherit
+  }
+  .scenario-table td:nth-child(1){width:54px;text-align:center;font-weight:800}
+  .scenario-table td:nth-child(3){width:180px}
+  .scenario-feedback{margin-top:6px;font-size:.9rem;font-weight:750;min-height:1.25em}
+  .scenario-feedback.correct{color:var(--good)}
+  .scenario-feedback.wrong{color:var(--bad)}
+  .scenario-table select.correct{border-color:#62b184;background:#eefaf3}
+  .scenario-table select.wrong{border-color:#d98d8d;background:#fff0f0}
+  @media(max-width:760px){
+    .scenario-table table,.scenario-table thead,.scenario-table tbody,.scenario-table th,.scenario-table td,.scenario-table tr{display:block}
+    .scenario-table thead{display:none}
+    .scenario-table tr{border:1px solid var(--line);border-radius:12px;margin:12px 0;padding:10px;background:white}
+    .scenario-table td{border:none!important;width:auto!important;padding:7px 4px}
+    .scenario-table td:nth-child(1){text-align:left}
+    .scenario-table td:nth-child(1)::before{content:"Scenario "}
+    .scenario-table td:nth-child(3)::before{content:"Your choice: ";font-weight:800}
+  }
+
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="label" style="background:rgba(255,255,255,.18);color:white">Grade 11 • Operating Systems</div>
+    <h1>User Interfaces</h1>
+    <p class="subtitle">A comprehensive theory pack covering graphical, command-line, natural-language and gesture-recognition interfaces — with OS examples, exam-focused comparisons, visuals and interactive practice.</p>
+    <div class="chips">
+      <span class="chip">11.3.1.11 GUI</span>
+      <span class="chip">11.3.1.12 CLI</span>
+      <span class="chip">11.3.1.13 GUI vs CLI</span>
+      <span class="chip">11.3.1.14 NLI & GRI</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#objectives">Objectives</a>
+    <a href="#foundations">Foundations</a>
+    <a href="#gui">GUI</a>
+    <a href="#cli">CLI</a>
+    <a href="#compare">GUI vs CLI</a>
+    <a href="#nli">NLI</a>
+    <a href="#gri">GRI</a>
+    <a href="#hybrid">Hybrid UIs</a>
+    <a href="#scenario40">40 Scenarios</a>
+    <a href="#interactive">Practice</a>
+    <a href="#quiz">Final Quiz</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="objectives">
+  <div class="card">
+    <h2>Subject programme and learning objectives</h2>
+    <div class="grid g2">
+      <div class="obj"><strong>11.3.1.11</strong><br>Identify the advantages and disadvantages of graphical user interfaces (GUI).</div>
+      <div class="obj"><strong>11.3.1.12</strong><br>Identify the advantages and disadvantages of command line interfaces (CLI).</div>
+      <div class="obj"><strong>11.3.1.13</strong><br>Compare graphical user interfaces (GUI) and command line interfaces (CLI).</div>
+      <div class="obj"><strong>11.3.1.14</strong><br>Explain the advantages and disadvantages of Natural Language Interfaces (NLI) and Gesture Recognition Interfaces (GRI).</div>
+    </div>
+    <div class="callout"><strong>Success criterion:</strong> You should be able to choose the most suitable interface for a user and situation, then justify the choice using specific criteria such as usability, speed, resource usage, automation, precision, accessibility and training requirements.</div>
+  </div>
+</section>
+
+<section id="foundations">
+  <div class="card">
+    <h2>1. What is a user interface?</h2>
+    <p>A <strong>user interface (UI)</strong> is the part of a computer system through which a user communicates with hardware and software. It accepts user input, sends instructions to the operating system or application, and presents output back to the user.</p>
+    <div class="diagram">
+      <div class="node"><strong>User</strong><br><span class="mini">clicks, types, speaks, gestures</span></div>
+      <div class="arrow">⇄</div>
+      <div class="node"><strong>User Interface</strong><br><span class="mini">translates human actions into system commands</span></div>
+    </div>
+    <div class="diagram" style="margin-top:12px">
+      <div class="node"><strong>User Interface</strong></div>
+      <div class="arrow">⇄</div>
+      <div class="node"><strong>Operating System / Application</strong><br><span class="mini">processes commands and controls resources</span></div>
+    </div>
+
+    <h3 style="margin-top:24px">Four interface types in this unit</h3>
+    <div class="grid g4">
+      <div class="card"><span class="label">GUI</span><h3>Graphical</h3><p>Windows, icons, menus, buttons, pointer/touch.</p></div>
+      <div class="card"><span class="label">CLI</span><h3>Command Line</h3><p>Text commands typed into a shell or terminal.</p></div>
+      <div class="card"><span class="label">NLI</span><h3>Natural Language</h3><p>Everyday spoken or written language.</p></div>
+      <div class="card"><span class="label">GRI</span><h3>Gesture Recognition</h3><p>Physical gestures interpreted as commands.</p></div>
+    </div>
+
+    <div class="callout"><strong>Important:</strong> Modern systems often use several interface types at the same time. A smartphone, for example, mainly uses a GUI but also accepts touch gestures, voice commands and typed natural-language search.</div>
+  </div>
+
+  <div class="card">
+    <h3>Interactive Interface Explorer</h3>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tgui">GUI</button>
+      <button class="tab-btn" data-tab="tcli">CLI</button>
+      <button class="tab-btn" data-tab="tnli">NLI</button>
+      <button class="tab-btn" data-tab="tgri">GRI</button>
+    </div>
+    <div id="tgui" class="tab-panel active"><strong>GUI:</strong> The user selects visible objects. Typical input: mouse, touchpad, touchscreen. Strong discoverability; comparatively high resource use.</div>
+    <div id="tcli" class="tab-panel"><strong>CLI:</strong> The user types exact commands. Excellent for automation and expert control; commands must be learned and entered accurately.</div>
+    <div id="tnli" class="tab-panel"><strong>NLI:</strong> The system interprets everyday language such as “Open my downloads folder” or “Find documents created yesterday.” Easy to express intentions, but language can be ambiguous.</div>
+    <div id="tgri" class="tab-panel"><strong>GRI:</strong> The system detects gestures such as swipe, pinch, rotate, hand movement or body pose. Direct and intuitive for some tasks, but tiring or inaccurate in unsuitable environments.</div>
+  </div>
+</section>
+
+<section id="gui">
+  <div class="card">
+    <span class="label">11.3.1.11</span>
+    <h2>2. Graphical User Interface (GUI)</h2>
+    <p>A <strong>Graphical User Interface</strong> allows users to interact with a computer using graphical objects such as windows, icons, menus, buttons, dialog boxes and pointers. Many GUIs follow the <strong>WIMP</strong> model: <strong>Windows, Icons, Menus, Pointer</strong>.</p>
+
+    <div class="grid g2">
+      <div>
+        <h3>Common GUI components</h3>
+        <ul>
+          <li><strong>Windows:</strong> areas showing applications or documents.</li>
+          <li><strong>Icons:</strong> graphical symbols representing files, apps or functions.</li>
+          <li><strong>Menus:</strong> lists of commands or options.</li>
+          <li><strong>Pointer / cursor:</strong> used to select or manipulate objects.</li>
+          <li><strong>Buttons and controls:</strong> clickable elements that trigger actions.</li>
+          <li><strong>Dialog boxes:</strong> ask users for information or confirmation.</li>
+          <li><strong>Drag-and-drop:</strong> direct manipulation of visible items.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Typical OS examples</h3>
+        <ul>
+          <li><strong>Microsoft Windows:</strong> desktop, Start menu, taskbar, File Explorer.</li>
+          <li><strong>macOS:</strong> Finder, Dock, menu bar, Mission Control.</li>
+          <li><strong>Linux desktop environments:</strong> GNOME, KDE Plasma, Cinnamon.</li>
+          <li><strong>Mobile operating systems:</strong> icon grids, touch controls, settings panels and app switchers.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Visual example: simplified file manager</h3>
+    <div class="visual-ui">
+      <div class="osbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><strong style="margin-left:10px">Files</strong></div>
+      <div class="desk">
+        <div class="sidebar">
+          <div class="sideitem" title="A visible navigation option">Home</div>
+          <div class="sideitem">Documents</div>
+          <div class="sideitem">Pictures</div>
+          <div class="sideitem">Downloads</div>
+        </div>
+        <div class="files">
+          <div class="file" onclick="this.querySelector('.fname').textContent='Selected: Report.docx'"><div class="icon">📄</div><div class="fname">Report.docx</div></div>
+          <div class="file" onclick="this.querySelector('.fname').textContent='Selected: Photos'"><div class="icon">🗂️</div><div class="fname">Photos</div></div>
+          <div class="file" onclick="this.querySelector('.fname').textContent='Selected: Budget.xlsx'"><div class="icon">📊</div><div class="fname">Budget.xlsx</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="mini">Try clicking the items. The visible objects provide clues about possible actions. This is a major GUI strength called <strong>discoverability</strong>.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>Advantages of GUI</h3>
+        <ul class="pros">
+          <li>Easy to learn because commands are represented visually.</li>
+          <li>Users do not need to memorise many command names or syntax rules.</li>
+          <li>Good for beginners and occasional users.</li>
+          <li>Visual feedback makes current state and available options easier to understand.</li>
+          <li>Supports direct manipulation such as dragging, resizing and selecting.</li>
+          <li>Good for graphics-heavy tasks such as design, image editing and presentation work.</li>
+          <li>Can make multitasking easier by displaying several windows simultaneously.</li>
+          <li>Menus and icons reduce spelling and syntax errors.</li>
+          <li>Touch-friendly GUIs work well on mobile and tablet devices.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Disadvantages of GUI</h3>
+        <ul class="cons">
+          <li>Requires more RAM, storage and graphics processing than a simple CLI.</li>
+          <li>Can be slower for repetitive expert tasks.</li>
+          <li>Automation is often more difficult than writing a script.</li>
+          <li>Complex menus can hide advanced features.</li>
+          <li>Precise control may require many clicks and dialog boxes.</li>
+          <li>Remote administration can consume more bandwidth than text-based access.</li>
+          <li>Some visual interfaces create accessibility barriers unless designed properly.</li>
+          <li>Large numbers of icons, panels and notifications can cause clutter.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exam"><strong>Exam technique:</strong> Do not write only “GUI is easier.” State <em>why</em>: “A GUI is easier for inexperienced users because visible icons and menus reduce the need to memorise command syntax.”</div>
+  </div>
+</section>
+
+<section id="cli">
+  <div class="card">
+    <span class="label">11.3.1.12</span>
+    <h2>3. Command Line Interface (CLI)</h2>
+    <p>A <strong>Command Line Interface</strong> allows users to type text commands into a <strong>shell</strong> or terminal. The system interprets each command and returns text output.</p>
+
+    <div class="grid g2">
+      <div>
+        <h3>OS examples</h3>
+        <ul>
+          <li><strong>Windows:</strong> Command Prompt and PowerShell.</li>
+          <li><strong>macOS:</strong> Terminal, commonly using the zsh shell.</li>
+          <li><strong>Linux:</strong> terminals using shells such as Bash, zsh or fish.</li>
+          <li><strong>Servers/network devices:</strong> often managed remotely through text-based terminals because they are fast and bandwidth-efficient.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Basic CLI concepts</h3>
+        <ul>
+          <li><strong>Command:</strong> instruction such as <code>cd</code>, <code>ls</code> or <code>mkdir</code>.</li>
+          <li><strong>Argument:</strong> extra data supplied to a command.</li>
+          <li><strong>Option / flag:</strong> changes how a command behaves.</li>
+          <li><strong>Prompt:</strong> shows the shell is ready for a command.</li>
+          <li><strong>Script:</strong> saved sequence of commands that can run automatically.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Interactive CLI simulator</h3>
+    <div class="terminal" id="terminal">
+      <div class="term-line">MiniShell 1.0 — type <span style="color:#ffd66b">help</span> to see supported commands.</div>
+      <div id="term-output"></div>
+      <div><span class="prompt">student@school:~$</span> <input id="term-input" autocomplete="off" spellcheck="false" aria-label="terminal input"></div>
+    </div>
+    <p class="mini">Try: <code>help</code>, <code>ls</code>, <code>pwd</code>, <code>mkdir revision</code>, <code>echo hello</code>, <code>clear</code>.</p>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>Advantages of CLI</h3>
+        <ul class="pros">
+          <li>Fast for experienced users.</li>
+          <li>Consumes relatively few system resources.</li>
+          <li>Efficient over slow or remote connections because text data is small.</li>
+          <li>Excellent for automation using scripts, loops and pipelines.</li>
+          <li>Commands can be highly precise and repeatable.</li>
+          <li>Advanced functions may be available even when no GUI option exists.</li>
+          <li>Useful for system administration, server management and development.</li>
+          <li>Commands can be copied, documented and reused.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Disadvantages of CLI</h3>
+        <ul class="cons">
+          <li>Commands and syntax must be learned or looked up.</li>
+          <li>Spelling mistakes and incorrect parameters can cause errors.</li>
+          <li>Less discoverable because available commands may not be visible.</li>
+          <li>Can appear intimidating to inexperienced users.</li>
+          <li>Some destructive commands can have serious consequences if used incorrectly.</li>
+          <li>Not ideal for visual tasks such as image editing or page layout.</li>
+          <li>Feedback may be less intuitive than graphical feedback.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Precision point:</strong> A CLI is not automatically “better” or “faster.” It is usually faster <em>for trained users and repeatable tasks</em>. For a beginner carrying out an unfamiliar task, a GUI may be faster because commands do not need to be memorised.</div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="card">
+    <span class="label">11.3.1.13</span>
+    <h2>4. Comparing GUI and CLI</h2>
+    <p>A strong comparison uses the <strong>same criterion</strong> for both interfaces and then links the difference to a situation.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Criterion</th><th>GUI</th><th>CLI</th><th>Who benefits?</th></tr></thead>
+        <tbody>
+          <tr><td>Ease of learning</td><td>Usually easier; visible menus and icons.</td><td>Harder initially; commands and syntax must be learned.</td><td>Beginners usually benefit from GUI.</td></tr>
+          <tr><td>Speed for experts</td><td>May require repeated clicks.</td><td>Commands can perform complex tasks quickly.</td><td>Experts and administrators often benefit from CLI.</td></tr>
+          <tr><td>System resources</td><td>Higher CPU/GPU/RAM use.</td><td>Usually lower resource usage.</td><td>Low-power devices and servers may favour CLI.</td></tr>
+          <tr><td>Automation</td><td>Possible, but often less direct.</td><td>Strong scripting and batch-processing support.</td><td>Repetitive tasks favour CLI.</td></tr>
+          <tr><td>Visual work</td><td>Excellent for spatial and graphical tasks.</td><td>Poor for direct visual manipulation.</td><td>Design, drawing and media work favour GUI.</td></tr>
+          <tr><td>Precision / repeatability</td><td>Manual selection can vary.</td><td>Exact commands can be repeated consistently.</td><td>Administration and reproducible workflows favour CLI.</td></tr>
+          <tr><td>Discoverability</td><td>Commands often visible.</td><td>Capabilities may be hidden unless users know command names.</td><td>Occasional users favour GUI.</td></tr>
+          <tr><td>Remote access</td><td>Graphical remote sessions can use more bandwidth.</td><td>Text-based remote sessions are lightweight.</td><td>Remote server work often favours CLI.</td></tr>
+          <tr><td>Error risk</td><td>Menus can prevent invalid commands.</td><td>Incorrect syntax or destructive commands can cause serious errors.</td><td>GUI can be safer for inexperienced users.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:24px">Suitability by scenario</h3>
+    <div class="grid g3">
+      <div class="card"><strong>School computer lab</strong><p>GUI usually preferred because students need a low learning barrier and visible options.</p></div>
+      <div class="card"><strong>System administrator</strong><p>CLI often preferred for remote management, scripting and repeated configuration.</p></div>
+      <div class="card"><strong>Graphic designer</strong><p>GUI strongly preferred because work depends on direct visual manipulation.</p></div>
+    </div>
+
+    <div class="exam"><strong>Comparison sentence pattern:</strong> “A CLI uses fewer resources than a GUI because it does not need to render graphical windows and icons; therefore, it can be more suitable for a headless server with limited hardware resources.”</div>
+  </div>
+
+  <div class="card">
+    <h3>Visual comparison meter</h3>
+    <p class="mini">The bars are conceptual, not benchmark measurements. They help show typical tendencies.</p>
+    <div class="grid g2">
+      <div>
+        <h4>GUI</h4>
+        <div class="metric"><span>Beginner friendliness</span><span>High</span></div><div class="bar"><div class="fill" style="width:90%"></div></div>
+        <div class="metric"><span>Automation</span><span>Medium</span></div><div class="bar"><div class="fill" style="width:50%"></div></div>
+        <div class="metric"><span>Resource efficiency</span><span>Lower</span></div><div class="bar"><div class="fill" style="width:40%"></div></div>
+        <div class="metric"><span>Visual manipulation</span><span>Very high</span></div><div class="bar"><div class="fill" style="width:95%"></div></div>
+      </div>
+      <div>
+        <h4>CLI</h4>
+        <div class="metric"><span>Beginner friendliness</span><span>Lower</span></div><div class="bar"><div class="fill" style="width:35%"></div></div>
+        <div class="metric"><span>Automation</span><span>Very high</span></div><div class="bar"><div class="fill" style="width:95%"></div></div>
+        <div class="metric"><span>Resource efficiency</span><span>High</span></div><div class="bar"><div class="fill" style="width:90%"></div></div>
+        <div class="metric"><span>Visual manipulation</span><span>Low</span></div><div class="bar"><div class="fill" style="width:20%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nli">
+  <div class="card">
+    <span class="label">11.3.1.14</span>
+    <h2>5. Natural Language Interface (NLI)</h2>
+    <p>A <strong>Natural Language Interface</strong> allows a user to communicate with a computer using everyday human language rather than formal commands. Input may be <strong>spoken</strong> or <strong>written</strong>.</p>
+
+    <div class="grid g2">
+      <div>
+        <h3>Examples</h3>
+        <ul>
+          <li>Voice assistants and voice control features.</li>
+          <li>Dictation and speech-to-text systems.</li>
+          <li>Chatbots and conversational assistants.</li>
+          <li>Natural-language search such as “find photos from last week”.</li>
+          <li>Accessibility tools that let users control a device by speaking.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>How it works conceptually</h3>
+        <div class="diagram">
+          <div class="node">Human language</div><div class="arrow">→</div><div class="node">Language processing → intended action</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>Advantages of NLI</h3>
+        <ul class="pros">
+          <li>Users can communicate in familiar language instead of memorising commands.</li>
+          <li>Can be hands-free, useful while driving, cooking or carrying equipment.</li>
+          <li>Supports accessibility for users who have difficulty using a keyboard or mouse.</li>
+          <li>Can make complex requests concise: one sentence may replace many menu steps.</li>
+          <li>Useful for conversational search and help systems.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Disadvantages of NLI</h3>
+        <ul class="cons">
+          <li>Natural language is ambiguous; the same sentence can have several meanings.</li>
+          <li>Speech recognition may be affected by accents, noise or microphone quality.</li>
+          <li>Privacy can be a concern when spoken requests are captured or processed.</li>
+          <li>Not suitable in every environment, for example quiet exam rooms or noisy factories.</li>
+          <li>Interpretation errors can make results unpredictable.</li>
+          <li>Users may not know what kinds of requests the system understands.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exam"><strong>High-quality point:</strong> NLI reduces the need to learn computer-specific syntax, but it replaces syntax problems with <em>interpretation problems</em> such as ambiguity and recognition accuracy.</div>
+  </div>
+</section>
+
+<section id="gri">
+  <div class="card">
+    <span class="label">11.3.1.14</span>
+    <h2>6. Gesture Recognition Interface (GRI)</h2>
+    <p>A <strong>Gesture Recognition Interface</strong> allows a computer to interpret physical movement as input. Gestures may be detected by a touchscreen, touchpad, camera, depth sensor, motion controller or wearable sensor.</p>
+
+    <div class="grid g3">
+      <div class="card"><h3>Touch gestures</h3><p>Tap, swipe, pinch, rotate, long press.</p></div>
+      <div class="card"><h3>Hand/body gestures</h3><p>Waving, pointing, hand poses or full-body movements detected by sensors.</p></div>
+      <div class="card"><h3>Motion control</h3><p>Tilting or moving a controller, phone or wearable device.</p></div>
+    </div>
+
+    <div class="grid g2">
+      <div class="card">
+        <h3>Advantages of GRI</h3>
+        <ul class="pros">
+          <li>Can feel natural because actions resemble real-world movements.</li>
+          <li>Useful when a keyboard or mouse would be inconvenient.</li>
+          <li>Supports immersive systems such as games, AR and VR.</li>
+          <li>Touch gestures allow direct manipulation of on-screen objects.</li>
+          <li>Can improve accessibility for some users.</li>
+          <li>Can reduce dependence on physical buttons.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Disadvantages of GRI</h3>
+        <ul class="cons">
+          <li>Gestures may be interpreted incorrectly.</li>
+          <li>Some gestures are not obvious and must still be learned.</li>
+          <li>Extended use can cause fatigue, especially large arm movements.</li>
+          <li>Cameras and sensors may be affected by lighting, obstacles or distance.</li>
+          <li>Accidental gestures can trigger unwanted actions.</li>
+          <li>Special hardware may increase cost.</li>
+          <li>Some users may be unable to perform certain gestures comfortably.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Distinction:</strong> A touchscreen GUI and a gesture interface can overlap. The <em>GUI</em> describes the graphical presentation; <em>gesture recognition</em> describes one way the user controls it.</div>
+  </div>
+</section>
+
+<section id="hybrid">
+  <div class="card">
+    <h2>7. Hybrid and multimodal interfaces</h2>
+    <p>Real operating systems rarely use only one interface type. A <strong>multimodal interface</strong> combines several input methods so the user can choose the most suitable one.</p>
+    <div class="grid g3">
+      <div class="card"><strong>Laptop</strong><p>GUI + keyboard shortcuts + terminal + voice dictation + touchpad gestures.</p></div>
+      <div class="card"><strong>Smartphone</strong><p>Touch GUI + swipe/pinch gestures + voice assistant + natural-language search.</p></div>
+      <div class="card"><strong>Server workstation</strong><p>GUI for monitoring + CLI for scripts and remote administration.</p></div>
+    </div>
+    <p><strong>Why hybrid designs matter:</strong> Different interfaces are best for different tasks. A GUI can make a system easy to learn, while a CLI can provide automation and precision. NLI can improve hands-free access, while gestures can make spatial manipulation more direct.</p>
+  </div>
+</section>
+
+
+<section id="scenario40">
+  <div class="card" id="scenarioChallenge">
+    <span class="label">Applied Practice</span>
+    <h2>8. 40 Scenario Interface Challenge</h2>
+    <p>For each scenario, choose the <strong>most appropriate interface</strong>: GUI, CLI, NLI or GRI. The scenarios are deliberately mixed. Use the theory from this pack to justify each choice.</p>
+
+    <div class="callout">
+      <strong>Student task:</strong> Select an interface for every scenario. Then use <em>Check all</em> to calculate your score. Incorrect answers are marked for another attempt, but the correct answer is not displayed.
+    </div>
+
+    <div class="scenario-toolbar">
+      <button onclick="checkAll40()">Check all</button>
+      <button class="secondary" onclick="reset40()">Reset</button>
+    </div>
+    <div id="scenario40Score" class="scorebox hidden"></div>
+
+    <div class="table-wrap scenario-table">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Scenario</th>
+            <th>Your choice</th>
+          </tr>
+        </thead>
+        <tbody id="scenario40Body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="interactive">
+  <div class="card">
+    <h2>9. Interactive practice</h2>
+    <h3>Activity A — Classify the statement</h3>
+    <p>Click a statement, then choose whether it is more strongly associated with GUI or CLI.</p>
+    <div id="classifyStatements">
+      <button class="statement" data-answer="CLI">Efficient for automating the same task across hundreds of files.</button>
+      <button class="statement" data-answer="GUI">Visible icons reduce the need to memorise command names.</button>
+      <button class="statement" data-answer="CLI">Usually needs fewer graphics resources.</button>
+      <button class="statement" data-answer="GUI">Well suited to image editing and visual layout.</button>
+      <button class="statement" data-answer="CLI">A single mistyped option may change the result of a command.</button>
+      <button class="statement" data-answer="GUI">Menus make available functions easier to discover.</button>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <button onclick="classify('GUI')">GUI</button>
+      <button onclick="classify('CLI')">CLI</button>
+      <button class="secondary" onclick="resetClassify()">Reset</button>
+    </div>
+    <div id="classifyFeedback" class="feedback"></div>
+  </div>
+
+  <div class="card">
+    <h3>Activity B — Choose the most suitable interface</h3>
+
+    <div class="scenario" data-correct="CLI">
+      <strong>1. A network administrator must apply the same configuration to 150 remote servers.</strong><br>
+      <label class="option"><input type="radio" name="s1" value="GUI"> GUI</label>
+      <label class="option"><input type="radio" name="s1" value="CLI"> CLI</label>
+      <label class="option"><input type="radio" name="s1" value="NLI"> NLI</label>
+      <label class="option"><input type="radio" name="s1" value="GRI"> GRI</label>
+    </div>
+
+    <div class="scenario" data-correct="GUI">
+      <strong>2. A student is arranging shapes and colours in a poster.</strong><br>
+      <label class="option"><input type="radio" name="s2" value="CLI"> CLI</label>
+      <label class="option"><input type="radio" name="s2" value="GUI"> GUI</label>
+      <label class="option"><input type="radio" name="s2" value="NLI"> NLI</label>
+      <label class="option"><input type="radio" name="s2" value="GRI"> GRI</label>
+    </div>
+
+    <div class="scenario" data-correct="NLI">
+      <strong>3. A driver wants to play a specific song without taking hands off the steering wheel.</strong><br>
+      <label class="option"><input type="radio" name="s3" value="GRI"> GRI</label>
+      <label class="option"><input type="radio" name="s3" value="NLI"> NLI</label>
+      <label class="option"><input type="radio" name="s3" value="CLI"> CLI</label>
+      <label class="option"><input type="radio" name="s3" value="GUI"> GUI</label>
+    </div>
+
+    <div class="scenario" data-correct="GRI">
+      <strong>4. A VR game must react to the player's hand movement.</strong><br>
+      <label class="option"><input type="radio" name="s4" value="GUI"> GUI</label>
+      <label class="option"><input type="radio" name="s4" value="NLI"> NLI</label>
+      <label class="option"><input type="radio" name="s4" value="GRI"> GRI</label>
+      <label class="option"><input type="radio" name="s4" value="CLI"> CLI</label>
+    </div>
+
+    <button onclick="checkScenarios()">Check scenarios</button>
+    <div id="scenarioFeedback" class="scorebox hidden"></div>
+  </div>
+
+  <div class="card">
+    <h3>Activity C — Explain, do not just name</h3>
+    <p>Complete each sentence mentally, then reveal the model answer.</p>
+    <details>
+      <summary>Why can a CLI be more suitable for a low-powered server?</summary>
+      <p>Because a CLI does not need to render a graphical desktop and therefore normally consumes fewer system resources. It also supports efficient remote administration and scripting.</p>
+    </details>
+    <details>
+      <summary>Why can a GUI be safer for an inexperienced user?</summary>
+      <p>Menus, buttons and dialog boxes limit the actions available and reduce command-syntax errors. Confirmation dialogs may also prevent accidental destructive actions.</p>
+    </details>
+    <details>
+      <summary>Why can NLI be convenient but unreliable?</summary>
+      <p>It lets users express intentions in ordinary language, but ordinary language can be ambiguous and speech recognition can be affected by noise or pronunciation.</p>
+    </details>
+    <details>
+      <summary>Why might GRI be unsuitable for long periods?</summary>
+      <p>Large or repeated physical movements can cause fatigue, and recognition accuracy can decrease when sensors cannot clearly detect the gesture.</p>
+    </details>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="card">
+    <h2>10. Final interactive quiz</h2>
+    <p>Ten questions test definitions, advantages, disadvantages and scenario-based comparison.</p>
+    <div id="quizArea"></div>
+    <button onclick="gradeQuiz()">Submit quiz</button>
+    <button class="secondary" onclick="resetQuiz()">Reset</button>
+    <div id="quizScore" class="scorebox hidden"></div>
+  </div>
+
+  <div class="card">
+    <h2>11. Exam revision summary</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Interface</th><th>Core idea</th><th>Strongest advantages</th><th>Main limitations</th><th>Typical best use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>GUI</strong></td><td>Visual objects</td><td>Easy to learn, discoverable, strong visual feedback</td><td>Higher resource use, less efficient for automation</td><td>General desktop use, visual tasks</td></tr>
+          <tr><td><strong>CLI</strong></td><td>Typed commands</td><td>Fast for experts, scriptable, precise, lightweight</td><td>Learning curve, syntax errors, low discoverability</td><td>Administration, development, repetitive tasks</td></tr>
+          <tr><td><strong>NLI</strong></td><td>Human language</td><td>Natural, hands-free, accessible</td><td>Ambiguity, recognition errors, privacy/environment issues</td><td>Voice control, assistants, conversational search</td></tr>
+          <tr><td><strong>GRI</strong></td><td>Physical movement</td><td>Direct, immersive, useful without keyboard/mouse</td><td>Fatigue, accidental input, hardware/sensor limitations</td><td>Touch devices, VR/AR, motion-controlled systems</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:22px">Key exam verbs</h3>
+    <ul>
+      <li><strong>Identify:</strong> state the feature, advantage or disadvantage.</li>
+      <li><strong>Explain:</strong> give the point and show why it matters.</li>
+      <li><strong>Compare:</strong> describe both sides using a common criterion.</li>
+      <li><strong>Justify:</strong> select an interface and link its features to the specific scenario.</li>
+    </ul>
+
+    <div class="exam"><strong>Best revision rule:</strong> Avoid absolute statements such as “CLI is always faster” or “GUI is always easier.” Interface suitability depends on the user, task, environment and hardware.</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>User Interfaces — Student Theory Pack</strong>
+    <p class="mini" style="color:#b7c3d3">Designed as a self-contained offline HTML learning resource. All interactive activities run in the browser without external libraries.</p>
+  </div>
+</footer>
+
+<script>
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Mini terminal
+  const termInput = document.getElementById('term-input');
+  const termOutput = document.getElementById('term-output');
+  const fakeFiles = ['notes.txt','project','images','homework.py'];
+  function addTerm(text, cls=''){
+    const d=document.createElement('div');
+    d.className='term-line '+cls;
+    d.textContent=text;
+    termOutput.appendChild(d);
+    d.scrollIntoView({block:'nearest'});
+  }
+  termInput.addEventListener('keydown', e=>{
+    if(e.key !== 'Enter') return;
+    const raw=termInput.value.trim();
+    addTerm('student@school:~$ '+raw);
+    const [cmd,...args]=raw.split(/\s+/);
+    const arg=args.join(' ');
+    switch((cmd||'').toLowerCase()){
+      case 'help': addTerm('Supported: help, ls, pwd, mkdir <name>, echo <text>, clear'); break;
+      case 'ls': addTerm(fakeFiles.join('   ')); break;
+      case 'pwd': addTerm('/home/student'); break;
+      case 'mkdir':
+        if(!arg) addTerm('mkdir: missing folder name');
+        else { fakeFiles.push(arg+'/'); addTerm('Folder created: '+arg); }
+        break;
+      case 'echo': addTerm(arg); break;
+      case 'clear': termOutput.innerHTML=''; break;
+      case '': break;
+      default: addTerm('Command not found: '+cmd);
+    }
+    termInput.value='';
+  });
+
+  // Classification activity
+  let selectedStatement=null;
+  document.querySelectorAll('#classifyStatements .statement').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('#classifyStatements .statement').forEach(x=>x.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedStatement=btn;
+      document.getElementById('classifyFeedback').textContent='Now choose GUI or CLI.';
+      document.getElementById('classifyFeedback').className='feedback';
+    });
+  });
+  function classify(choice){
+    const fb=document.getElementById('classifyFeedback');
+    if(!selectedStatement){fb.textContent='Select a statement first.';fb.className='feedback bad';return;}
+    const ok=selectedStatement.dataset.answer===choice;
+    selectedStatement.classList.remove('selected','correct','wrong');
+    selectedStatement.classList.add(ok?'correct':'wrong');
+    fb.textContent=ok?'Correct.':'Not quite. Think about which interface is most strongly associated with this feature.';
+    fb.className='feedback '+(ok?'good':'bad');
+    selectedStatement=null;
+  }
+  function resetClassify(){
+    document.querySelectorAll('#classifyStatements .statement').forEach(x=>x.classList.remove('selected','correct','wrong'));
+    selectedStatement=null;
+    document.getElementById('classifyFeedback').textContent='';
+  }
+
+  // Scenario checker
+  function checkScenarios(){
+    const scenarios=[...document.querySelectorAll('.scenario')];
+    let score=0, attempted=0;
+    scenarios.forEach(s=>{
+      const picked=s.querySelector('input:checked');
+      s.style.borderColor='#dfe5ec';
+      if(picked){
+        attempted++;
+        if(picked.value===s.dataset.correct){score++;s.style.borderColor='#78c69b';}
+        else{s.style.borderColor='#e3a0a0';}
+      }
+    });
+    const box=document.getElementById('scenarioFeedback');
+    box.classList.remove('hidden');
+    box.textContent=`Score: ${score}/${scenarios.length}. Answered: ${attempted}/${scenarios.length}.`;
+  }
+
+  // Final quiz
+  const quiz = [
+    {
+      q:'Which statement best defines a GUI?',
+      opts:['An interface controlled only by voice','An interface using graphical objects such as icons, menus and windows','A text-only shell for commands','A system that recognises body movement'],
+      a:1, why:'A GUI represents actions and system objects visually.'
+    },
+    {
+      q:'Which is the strongest reason to use a CLI for repetitive administration?',
+      opts:['It has larger icons','It can be scripted and repeated accurately','It requires no training','It always prevents user mistakes'],
+      a:1, why:'Scripting makes CLI workflows repeatable and automatable.'
+    },
+    {
+      q:'Which is a disadvantage of GUI compared with CLI?',
+      opts:['GUI cannot show images','GUI generally uses more processing and memory resources','GUI cannot use a mouse','GUI always requires internet access'],
+      a:1, why:'Rendering graphical windows and effects normally uses more resources.'
+    },
+    {
+      q:'Which situation most strongly favours a GUI?',
+      opts:['Editing the exact position and colour of objects in a poster','Running the same command on 500 files','Administering a remote server over a slow connection','Writing a repeatable deployment script'],
+      a:0, why:'Visual design benefits from direct graphical manipulation.'
+    },
+    {
+      q:'Why can a CLI be difficult for beginners?',
+      opts:['It cannot process files','Users often need to remember commands and syntax','It cannot connect to servers','It has too many icons'],
+      a:1, why:'CLI functionality is less discoverable and relies on command knowledge.'
+    },
+    {
+      q:'Which is an advantage of Natural Language Interfaces?',
+      opts:['They eliminate all ambiguity','They allow users to express requests in familiar language','They never need microphones or keyboards','They always work accurately in noisy rooms'],
+      a:1, why:'The main advantage is familiar, human-style interaction.'
+    },
+    {
+      q:'Which is a realistic limitation of NLI?',
+      opts:['Human language can be ambiguous','It cannot accept written text','It never supports accessibility','It cannot perform search'],
+      a:0, why:'Ambiguity can make interpretation uncertain.'
+    },
+    {
+      q:'Which example is primarily a Gesture Recognition Interface?',
+      opts:['Typing dir into Command Prompt','Pinching two fingers to zoom on a touchscreen','Selecting File > Save from a menu','Typing a natural-language question into a chatbot'],
+      a:1, why:'Pinch-to-zoom is a physical gesture interpreted as a control command.'
+    },
+    {
+      q:'Which is a disadvantage of GRI?',
+      opts:['It can never work without a mouse','Large repeated gestures may cause fatigue','It cannot be used in games','It is always less intuitive than CLI'],
+      a:1, why:'Physical interaction can cause fatigue, particularly with sustained arm movement.'
+    },
+    {
+      q:'Which is the best comparison?',
+      opts:[
+        'CLI is better than GUI.',
+        'GUI is easier because it looks nice.',
+        'GUI is often easier for beginners because options are visible, while CLI can be faster for trained users because commands can execute precise or repeated tasks quickly.',
+        'CLI uses text, so it is always faster in every situation.'
+      ],
+      a:2, why:'A good comparison uses a shared criterion, includes both sides, and avoids absolute claims.'
+    }
+  ];
+
+  function renderQuiz(){
+    const area=document.getElementById('quizArea');
+    area.innerHTML='';
+    quiz.forEach((item,i)=>{
+      const box=document.createElement('div');
+      box.className='qbox';
+      box.innerHTML=`<strong>${i+1}. ${item.q}</strong>`+
+        item.opts.map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('')+
+        `<div class="feedback" id="fb${i}"></div>`;
+      area.appendChild(box);
+    });
+  }
+  function gradeQuiz(){
+    let score=0, attempted=0;
+    quiz.forEach((item,i)=>{
+      const chosen=document.querySelector(`input[name="q${i}"]:checked`);
+      const fb=document.getElementById('fb'+i);
+      if(!chosen){fb.textContent='Not answered.';fb.className='feedback bad';return;}
+      attempted++;
+      if(Number(chosen.value)===item.a){
+        score++;fb.textContent='Correct — '+item.why;fb.className='feedback good';
+      } else {
+        fb.textContent='Incorrect — '+item.why;fb.className='feedback bad';
+      }
+    });
+    const scorebox=document.getElementById('quizScore');
+    scorebox.classList.remove('hidden');
+    let band = score>=9 ? 'Excellent mastery.' : score>=7 ? 'Good understanding.' : score>=5 ? 'Developing — review the comparison table.' : 'Review the theory sections, then try again.';
+    scorebox.textContent=`Final score: ${score}/10. Answered: ${attempted}/10. ${band}`;
+    scorebox.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function resetQuiz(){
+    renderQuiz();
+    const s=document.getElementById('quizScore');s.classList.add('hidden');s.textContent='';
+  }
+  renderQuiz();
+
+  // 40-scenario interface challenge
+  const scenario40Data = [{"scenario": "A graphic designer is arranging images, text boxes and shapes on a poster.", "answer": "GUI", "reason": "Direct visual manipulation is important for positioning and resizing objects."}, {"scenario": "A system administrator needs to rename 2,000 files automatically.", "answer": "CLI", "reason": "Commands or scripts can process many files quickly and consistently."}, {"scenario": "A driver wants to call a contact without taking their hands off the steering wheel.", "answer": "NLI", "reason": "Spoken natural-language commands allow hands-free control."}, {"scenario": "A user zooms into a photograph by pinching two fingers on a touchscreen.", "answer": "GRI", "reason": "The system interprets a physical gesture as an input command."}, {"scenario": "A beginner wants to copy several documents between folders.", "answer": "GUI", "reason": "Visible folders, icons and drag-and-drop make the task easier to understand."}, {"scenario": "A technician manages a remote server through a slow internet connection.", "answer": "CLI", "reason": "Text-based communication requires little bandwidth."}, {"scenario": "A person asks a phone, “What is the weather tomorrow?”", "answer": "NLI", "reason": "The user communicates using ordinary spoken language."}, {"scenario": "A VR game tracks the movement of the player's hands.", "answer": "GRI", "reason": "Physical hand movements are recognised and converted into actions."}, {"scenario": "A student is creating a presentation with images, diagrams and animations.", "answer": "GUI", "reason": "Visual editing tools are more suitable for graphical content."}, {"scenario": "A programmer needs to run the same software installation command on 50 computers.", "answer": "CLI", "reason": "Commands can be automated and repeated using scripts."}, {"scenario": "A user tells a smart speaker, “Play my study playlist.”", "answer": "NLI", "reason": "The request is expressed in normal human language."}, {"scenario": "A tablet user swipes left to move to the next page.", "answer": "GRI", "reason": "A swipe gesture controls the interface."}, {"scenario": "A first-time computer user wants to open an application from the desktop.", "answer": "GUI", "reason": "Icons make available programs easy to identify and select."}, {"scenario": "An administrator wants to display a list of all files with a particular extension.", "answer": "CLI", "reason": "A command can filter and display files precisely."}, {"scenario": "A visually impaired user controls a computer mainly by speaking commands.", "answer": "NLI", "reason": "Speech provides an alternative to mouse and keyboard input."}, {"scenario": "A presentation system changes slides when the presenter moves their hand.", "answer": "GRI", "reason": "Hand movements are recognised as commands."}, {"scenario": "A photographer is adjusting brightness, contrast and crop areas in an image editor.", "answer": "GUI", "reason": "Visual feedback is necessary while editing the image."}, {"scenario": "A network engineer needs to configure several routers using exact commands.", "answer": "CLI", "reason": "Text commands allow precise and repeatable configuration."}, {"scenario": "A customer asks a chatbot, “Where is my order?”", "answer": "NLI", "reason": "The system interprets a question written in everyday language."}, {"scenario": "A user rotates an object on a tablet using two fingers.", "answer": "GRI", "reason": "The rotation movement is a recognised touch gesture."}, {"scenario": "A primary-school student is learning how to use a computer for the first time.", "answer": "GUI", "reason": "Visible controls reduce the need to memorise commands."}, {"scenario": "A developer wants to automatically create 100 folders with different names.", "answer": "CLI", "reason": "A script can create all folders much faster than repeated clicking."}, {"scenario": "A passenger says, “Find the nearest petrol station.”", "answer": "NLI", "reason": "The request is given using natural spoken language."}, {"scenario": "A fitness game detects jumping, bending and arm movement.", "answer": "GRI", "reason": "Full-body movements are interpreted by sensors."}, {"scenario": "A user wants to organise photos into folders using drag-and-drop.", "answer": "GUI", "reason": "Direct manipulation makes moving visual items simple."}, {"scenario": "A server has no monitor and is administered remotely.", "answer": "CLI", "reason": "A graphical desktop is unnecessary and would consume extra resources."}, {"scenario": "A user dictates an email instead of typing it.", "answer": "NLI", "reason": "Spoken language is converted into text."}, {"scenario": "A smartphone user pinches the screen to zoom out on a map.", "answer": "GRI", "reason": "Pinching is a recognised touch gesture."}, {"scenario": "An office worker is formatting a report with different fonts, margins and images.", "answer": "GUI", "reason": "Visual formatting controls provide immediate feedback."}, {"scenario": "A cybersecurity specialist needs to search thousands of log entries for a particular phrase.", "answer": "CLI", "reason": "Text commands can search large amounts of data efficiently."}, {"scenario": "A tourist asks a digital assistant, “Translate this sentence into Korean.”", "answer": "NLI", "reason": "The request is expressed conversationally."}, {"scenario": "A museum display responds when visitors wave their hands in front of a sensor.", "answer": "GRI", "reason": "The sensor recognises movement without physical contact."}, {"scenario": "A user wants to see several applications on the screen at the same time.", "answer": "GUI", "reason": "Windows allow applications to be displayed and managed visually."}, {"scenario": "A school technician must delete temporary files from hundreds of computers every week.", "answer": "CLI", "reason": "The process can be scripted and automated."}, {"scenario": "A student types, “Find documents I edited yesterday.”", "answer": "NLI", "reason": "The request uses ordinary language rather than formal command syntax."}, {"scenario": "A racing game uses the movement of a controller to steer a vehicle.", "answer": "GRI", "reason": "Motion of the controller is used as input."}, {"scenario": "A video editor needs to drag clips along a timeline and preview the results.", "answer": "GUI", "reason": "Visual and spatial manipulation is essential for editing."}, {"scenario": "An experienced Linux administrator needs to check disk usage quickly on several machines.", "answer": "CLI", "reason": "A short text command can provide the required information efficiently."}, {"scenario": "A surgeon wants to request patient information verbally while keeping their hands sterile.", "answer": "NLI", "reason": "Voice control allows hands-free interaction."}, {"scenario": "An augmented-reality application lets a user move a virtual object by moving their hands.", "answer": "GRI", "reason": "Hand movement directly controls an object in the digital environment."}];
+
+  function renderScenario40(){
+    const body = document.getElementById('scenario40Body');
+    if(!body) return;
+    body.innerHTML = scenario40Data.map((item,i)=>`
+      <tr data-index="${i}">
+        <td>${i+1}</td>
+        <td>${item.scenario}</td>
+        <td>
+          <select id="scenarioChoice${i}" aria-label="Interface choice for scenario ${i+1}">
+            <option value="">Choose…</option>
+            <option value="GUI">GUI</option>
+            <option value="CLI">CLI</option>
+            <option value="NLI">NLI</option>
+            <option value="GRI">GRI</option>
+          </select>
+          <div id="scenarioResult${i}" class="scenario-feedback"></div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function checkAll40(){
+    let score=0, attempted=0;
+    scenario40Data.forEach((item,i)=>{
+      const select=document.getElementById('scenarioChoice'+i);
+      const result=document.getElementById('scenarioResult'+i);
+      result.classList.remove('correct','wrong');
+      select.classList.remove('correct','wrong');
+      if(!select.value){
+        result.textContent='Not answered.';
+        return;
+      }
+      attempted++;
+      if(select.value===item.answer){
+        score++;
+        result.textContent='Correct.';
+        result.classList.add('correct');
+        select.classList.add('correct');
+      } else {
+        result.textContent='Incorrect — try again.';
+        result.classList.add('wrong');
+        select.classList.add('wrong');
+      }
+    });
+    const box=document.getElementById('scenario40Score');
+    box.classList.remove('hidden');
+    let message =
+      score>=36 ? 'Excellent application of interface-selection criteria.' :
+      score>=30 ? 'Strong understanding. Review the few incorrect scenarios.' :
+      score>=22 ? 'Developing understanding. Revisit GUI/CLI and NLI/GRI distinctions.' :
+      'Review the theory sections before trying the scenarios again.';
+    box.textContent=`Score: ${score}/40. Answered: ${attempted}/40. ${message}`;
+  }
+
+  function reset40(){
+    scenario40Data.forEach((item,i)=>{
+      const select=document.getElementById('scenarioChoice'+i);
+      const result=document.getElementById('scenarioResult'+i);
+      if(select){
+        select.value='';
+        select.classList.remove('correct','wrong');
+      }
+      if(result){
+        result.textContent='';
+        result.className='scenario-feedback';
+      }
+    });
+    const box=document.getElementById('scenario40Score');
+    box.classList.add('hidden');
+    box.textContent='';
+  }
+
+  renderScenario40();
+
+</script>
+</body>
+</html>
